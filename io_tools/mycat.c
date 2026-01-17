@@ -1,6 +1,5 @@
 #include <fcntl.h>
 #include <unistd.h>
-#include <stdlib.h>
 #include <stdio.h>
 
 /*
@@ -23,11 +22,11 @@ int main(int argc, char* argv[])
 			continue;
 		}
 
-		char c;
+		char buffer[100];
 		ssize_t n;
-		while((n = read(fd, &c, 1)) > 0)
+		while((n = read(fd, buffer, sizeof(buffer))) > 0)		// try to read 100 byte chunks at a time
 		{
-			putchar(c);
+			write(STDOUT_FILENO, buffer, n);	// write bytes read to output file
 		}
 		close(fd);
 	}
